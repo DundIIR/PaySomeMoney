@@ -11,6 +11,8 @@
 
 GitHub Pages + автодеплой через GitHub Actions: на каждый push в `master` workflow собирает проект и публикует `dist`. URL: `https://dundiir.github.io/PaySomeMoney/`.
 
+**Обновление 2026-06-12:** куплен домен `pay-some-money.ru`, подключён к Pages как custom domain. Сайт теперь живёт на корне, поэтому `base` стал `/` и вынесен в переменную `VITE_BASE_PATH` (repository variable на GitHub): если домен отвалится и сайт вернётся на `dundiir.github.io/PaySomeMoney/`, достаточно поставить `VITE_BASE_PATH = /PaySomeMoney/` без правки кода. Секрет `RETURN_URL` в Supabase должен указывать на `https://pay-some-money.ru/success`.
+
 ## Альтернативы
 
 - **Timeweb VPS** — полный контроль, но нужно платить, ставить и настраивать nginx, самому обновлять билд при каждом изменении. Для статики избыточно.

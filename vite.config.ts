@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
-export default defineConfig(({ command }) => ({
-  // Прод живёт на GitHub Pages в подпапке /PaySomeMoney/, дев — на корне localhost
-  base: command === 'build' ? '/PaySomeMoney/' : '/',
+export default defineConfig(() => ({
+  // С кастомным доменом (pay-some-money.ru) сайт живёт на корне.
+  // VITE_BASE_PATH задаётся в repository variables на GitHub — если домен
+  // отвалится и вернёмся на dundiir.github.io, поставить там /PaySomeMoney/
+  base: process.env.VITE_BASE_PATH || '/',
   plugins: [react()],
   server: {
     // На Windows "localhost" резолвится в ::1 и Vite слушает только IPv6 —

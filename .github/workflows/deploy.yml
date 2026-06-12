@@ -35,6 +35,8 @@ jobs:
         env:
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+          # Базовый путь сайта; не задана — '/' (кастомный домен pay-some-money.ru)
+          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH }}
 
       # SPA-fallback: GitHub Pages отдаёт 404.html на любой несуществующий путь
       # (например /PaySomeMoney/success после редиректа с ЮKassa) — кладём туда

@@ -23,3 +23,9 @@
 **Симптом:** `deploy_edge_function` для существующей функции падает с `BadRequestException: import map path does not exist - .../_5/source/file:///tmp/..._4/source/deno.json` — и с файлом `deno.json` в списке, и без него.
 **Причина:** у задеплоенной функции в метаданных `import_map_path` хранится как абсолютный путь к каталогу предыдущей версии (`/tmp/user_fn_..._4/source/deno.json`). При новом деплое без явного `import_map_path` API подставляет этот протухший путь.
 **Решение:** при редеплое всегда передавать `import_map_path: "deno.json"` явно и включать `deno.json` в `files`. Это касается всех трёх функций проекта.
+
+## 2026-06-12 — `npm ci` в CI падает: «Missing: @emnapi/core@… from lock file»
+
+**Симптом:** workflow на ubuntu-latest падает на `npm ci` с `Missing: @emnapi/core@1.11.0 from lock file` и `Missing: @emnapi/runtime@1.11.0 from lock file`, хотя локально на Windows `npm ci --dry-run` проходит.
+**Причина:** известный баг npm — lock-файл, сгенерированный на Windows, не включает транзитивные зависимости optional-пакета чужой платформы (`@rolldown/binding-wasm32-wasi` → `@emnapi/core`, `@emnapi/runtime`). Первая перегенерация локальным npm 11.6 вернула `@emnapi/core`, но `@emnapi/runtime` по-прежнему отсутствовал.
+**Решение:** перегенерировать lock последней версией npm: `Remove-Item package-lock.json; npx -y npm@latest install --package-lock-only` (npm 11.17). Проверка перед пушем: `npx npm@latest ci --dry-run --os linux --cpu x64`.
